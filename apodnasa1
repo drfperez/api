@@ -1,0 +1,42 @@
+<html>
+<head>
+  <title>APOD</title>
+</head>
+<body>
+  <h1>APOD</h1>
+  <div id="result"></div>
+  <script>
+    const resultDiv = document.getElementById('result');
+
+    getAPOD();
+
+    function getAPOD() {
+      const xhr = new XMLHttpRequest();
+      const url = `https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY`;
+      xhr.open('GET', url);
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          const apod = JSON.parse(xhr.responseText);
+          displayAPOD(apod);
+        } else {
+          resultDiv.innerHTML = 'Error retrieving APOD';
+        }
+      };
+      xhr.send();
+    }
+
+    function displayAPOD(apod) {
+      let resultHTML = `<h2>${apod.title}</h2>`;
+      if (apod.media_type === 'image') {
+        resultHTML += `<img src="${apod.url}" alt="${apod.title}">`;
+      } else if (apod.media_type === 'video') {
+        resultHTML += `<iframe src="${apod.url}" frameborder="0" allowfullscreen></iframe>`;
+      }
+      resultHTML += `<p>${apod.explanation}</p>`;
+      resultHTML += `<p>Copyright: ${apod.copyright}</p>`;
+      resultHTML += `<p>Date: ${apod.date}</p>`;
+      resultDiv.innerHTML = resultHTML;
+    }
+  </script>
+</body>
+</html>
