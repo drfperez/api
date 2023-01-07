@@ -1,0 +1,115 @@
+<html>
+<head>
+  <title>USDA Food Nutrient Search</title>
+  <style>
+    /* Add some padding and a border to the table cells */
+    td, th {
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    /* Add some hover effect to the table rows */
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    /* Add a border and some padding to the form elements */
+    input, button {
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+
+    /* Add some margin to the form label */
+    label {
+      margin-right: 10px;
+    }
+
+    /* Add some margin and a background color to the submit button */
+    button {
+      margin-top: 10px;
+      background-color: #4caf50;
+      color: white;
+    }
+  </style>
+
+</head>
+<body>
+  <h1>USDA Food Nutrient Search</h1>
+  <form id="search-form">
+    <label for="food-name">Food name:</label><br>
+    <input type="text" id="food-name" name="food-name"><br>
+    <button type="submit">Search</button>
+  </form>
+  <br>
+  <div id="status">
+    <!-- Request status will be displayed here -->
+  </div>
+  <br>
+  <div id="results">
+    <!-- Results tables will be displayed here -->
+  </div>
+  <script>
+    // Get the search form, status div, and results div elements
+    const searchForm = document.getElementById('search-form');
+    const statusDiv = document.getElementById('status');
+    const resultsDiv = document.getElementById('results');
+
+    // Add a submit event listener to the form
+    searchForm.addEventListener('submit', e => {
+      // Prevent the default form submission behavior
+      e.preventDefault();
+
+      // Get the food name from the form
+      const foodName = document.getElementById('food-name').value;
+
+      // Update the status div to show that the request is in progress
+      statusDiv.innerHTML = 'Loading...';
+
+      // Make a request to the USDA Food Composition Databases API to search for the food
+      fetch(`https://api.nal.usda.gov/fdc/v1/search?api_key=YOUR_API_KEY&generalSearchInput=${foodName}`)
+        .then(response => {
+          // Check the status of the response
+          if (response.ok) {
+            // If the request was successful, parse the JSON data and return
+            // If the request was successful, parse the JSON data and return it
+            return response.json();
+          } else {
+            // If the request was not successful, throw an error
+            throw new Error(response.statusText);
+          }
+        })
+        .then(data => {
+          // Extract the relevant information about the foods and their nutrients from the API response
+          const foods = data.foods;
+
+          // Loop through the foods array
+          foods.forEach(food => {
+            // Extract the nutrients from the food
+            const nutrients = food.foodNutrients;
+
+            // Create an HTML element to display the food description
+            let foodDescription = `<b>${food.description}</b>`;
+
+            // Create an HTML table to display the nutrients
+            let resultsTable = '<table>';
+            resultsTable += '<tr><th>Nutrient</th><th>Value</th></tr>';
+            nutrients.forEach(nutrient => {
+              resultsTable += `<tr><td>${nutrient.nutrientName}</td><td>${nutrient.value} ${nutrient.unitName}</td></tr>`;
+            });
+            resultsTable += '</table>';
+
+            // Append the food description and results table to the results div
+            resultsDiv.innerHTML += foodDescription + resultsTable;
+          });
+
+          // Update the status div to show that the request was successful
+          statusDiv.innerHTML = 'Done';
+        })
+        .catch(error => {
+          // If an error occurred, display the error message in the status div
+          statusDiv.innerHTML = `Error: ${error.message}`;
+        });
+    });
+  </script>
+</body>
+</html>
