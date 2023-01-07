@@ -1,0 +1,75 @@
+<html>
+<head>
+  <title>USDA Food Nutrient Search</title>
+</head>
+<body>
+  <h1>USDA Food Nutrient Search</h1>
+  <form id="search-form">
+    <label for="food-name">Food name:</label><br>
+    <input type="text" id="food-name" name="food-name"><br>
+    <button type="submit">Search</button>
+  </form>
+  <br>
+  <div id="status">
+    <!-- Request status will be displayed here -->
+  </div>
+  <br>
+  <div id="results">
+    <!-- Results table will be displayed here -->
+  </div>
+  <script>
+    // Get the search form, status div, and results div elements
+    const searchForm = document.getElementById('search-form');
+    const statusDiv = document.getElementById('status');
+    const resultsDiv = document.getElementById('results');
+
+    // Add a submit event listener to the form
+    searchForm.addEventListener('submit', e => {
+      // Prevent the default form submission behavior
+      e.preventDefault();
+
+      // Get the food name from the form
+      const foodName = document.getElementById('food-name').value;
+
+      // Update the status div to show that the request is in progress
+      statusDiv.innerHTML = 'Loading...';
+
+      // Make a request to the USDA Food Composition Databases API to search for the food
+      fetch(`https://api.nal.usda.gov/fdc/v1/search?api_key=NXWd5FMgr3NKIIJI5gHBouIQMf2dRnG5h0cJlCtX&generalSearchInput=${foodName}`)
+        .then(response => {
+          // Check the status of the response
+          if (response.ok) {
+            // If the request was successful, parse the JSON data and return it
+            return response.json();
+          } else {
+            // If the request was not successful, throw an error
+            throw new Error(response.statusText);
+          }
+        })
+        .then(data => {
+          // Extract the relevant information about the food and its nutrients from the API response
+          const food = data.foods[0];
+          const nutrients = food.foodNutrients;
+
+          // Create an HTML table to display the nutrients
+          let resultsTable = '<table>';
+          resultsTable += '<tr><th>Nutrient</th><th>Value</th></tr>';
+          nutrients.forEach(nutrient => {
+            resultsTable += `<tr><td>${nutrient.nutrientName}</td><td>${nutrient.value} ${nutrient.unitName}</td></tr>`;
+          });
+          resultsTable += '</table>';
+
+          // Display the results table in the results div
+          resultsDiv.innerHTML = resultsTable;
+
+          // Update the status div to show that the request was successful
+          statusDiv.innerHTML = 'Done';
+        })
+        .catch(error => {
+          // If an error occurred, display the error message in the status div
+          statusDiv.innerHTML = `Error: ${error.message}`;
+        });
+    });
+    </script>
+    </body>
+    </html>
