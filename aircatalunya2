@@ -1,0 +1,128 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Estaciones de Medición de Contaminación</title>
+  </head>
+  <body>
+    <h1>Estaciones de Medición de Contaminación</h1>
+    <form id="formulario">
+      <label for="estaciones">Selecciona una estación:</label><br>
+      <select id="estaciones">
+        <option value="Agullana">Agullana</option>
+        <option value="Alcanar">Alcanar</option>
+        <option value="Alcover">Alcover</option>
+        <option value="Amposta">Amposta</option>
+        <option value="Badalona">Badalona</option>
+        
+
+      <option value="Badalona">Badalona</option>
+      <option value="Barberà del Vallès">Barberà del Vallès</option>
+      <option value="Barcelona (Ciutadella)">Barcelona (Ciutadella)</option>
+      <option value="Barcelona (Eixample)">Barcelona (Eixample)</option>
+      <option value="Barcelona (Gràcia - Sant Gervasi)">Barcelona (Gràcia - Sant Gervasi)</option>
+      <option value="Barcelona (Observatori Fabra)">Barcelona (Observatori Fabra)</option>
+      <option value="Barcelona (Palau Reial)">Barcelona (Palau Reial)</option>
+      <option value="Barcelona (Parc Vall Hebron)">Barce   mmlona (Parc Vall Hebron)</option>
+      <option value="Barcelona (Poblenou)">Barcelona (Poblenou)</option>
+      <option value="Barcelona (Sants)">Barcelona (Sants)</option>
+      <option value="Begur">Begur</option>
+      <option value="Bellver de Cerdanya">Bellver de Cerdanya</option>
+      <option value="Berga">Berga</option>
+      <option value="Constantí">Constantí</option>
+      <option value="Cubelles (Poliesportiu)">Cubelles (Poliesportiu)</option>
+      <option value="El Prat de Llobregat (Jardins de la Pau)">El Prat de Llobregat (Jardins de la Pau)</option>
+      <option value="El Prat de Llobregat (Sagnier)">El Prat de Llobregat (Sagnier)</option>
+      <option value="Els Guiamets">Els Guiamets</option>
+      <option value="Flix">Flix</option>
+      <option value="Gandesa">Gandesa</option>
+      <option value="Gavà">Gavà</option>
+      <option value="Girona (Escola de Música)">Girona (Escola de Música)</option>
+      <option value="Granollers">Granollers</option>
+      <option value="Igualada">Igualada</option>
+      <option value="Juneda (Pla del Molí)">Juneda (Pla del Molí)</option>
+      <option value="L'Ametlla de Mar">L'Ametlla de Mar</option>
+      <option value="L'Hospitalet de Llobregat">L'Hospitalet de Llobregat</option>
+      <option value="La Sénia">La Sénia</option>
+      <option value="Lleida">Lleida</option>
+      <option value="Manlleu">Manlleu</option>
+      <option value="Manresa">Manresa</option>
+      <option value="Martorell">Martorell</option>
+      <option value="Mataró">Mataró</option>
+      <option value="Mollet del Vallès">Mollet del Vallès</option>
+      <option value="Montcada i Reixac">Montcada i Reixac</option>
+      <option value="Montcada i Reixac (Can Sant Joan)">Montcada i Reixac (Can Sant Joan)</option>
+      <option value="Montsec">Montsec</option>
+      <option value="Montseny (La Castanya)">Montseny (La Castanya)</option>
+      <option value="Pallejà (Roca de Vilana)">Pallejà (Roca de Vilana)</option>
+      <option value="Pardines">Pardines</option>
+      <option value="Perafort (Puigdelfí)">Perafort (Puigdelfí)</option>
+      <option value="Ponts">Ponts</option>
+      <option value="Reus">Reus</option>
+      <option value="Rubí">Rubí</option>
+      <option value="Sabadell">Sabadell</option>
+      <option value="Sant Adrià de Besòs">Sant Adrià de Besòs</option>
+      <option value="Sant Andreu de la Barca">Sant Andreu de la Barca</option>
+      <option value="Sant Celoni">Sant Celoni</option>
+      <option value="Sant Cugat del Vallès">Sant Cugat del Vallès</option>
+      <option value="Sant Vicenç dels Horts">Sant Vicenç dels Horts</option>
+      <option value="Sant Vicenç dels Horts (Ribot)">Sant Vicenç dels Horts (Ribot)</option>
+      <option value="Santa Coloma de Gramenet">Santa Coloma de Gramenet</option>
+      <option value="Santa Maria de Palautordera">Santa Maria de Palautordera</option>
+      <option value="Santa Pau">Santa Pau</option>
+      <option value="Santa Perpètua de Mogoda">Santa Perpètua de Mogoda</option>
+      <option value="Sort">Sort</option>
+      <option value="Sta. Margarida i els Monjos (La Ràpita)">Sta. Margarida i els Monjos (La Ràpita)</option>
+      <option value="Tarragona (Bonavista)">Tarragona (Bonavista)</option>
+      <option value="Tarragona (Parc de la Ciutat)">Tarragona (Parc de la Ciutat)</option>
+      
+
+      <option value="Tarragona (Sant Salvador)">Tarragona (Sant Salvador)</option>
+      <option value="Tarragona (Universitat Laboral)">Tarragona (Universitat Laboral)</option>
+      <option value="Terrassa">Terrassa</option>
+      <option value="Tona (Zona Esportiva)">Tona (Zona Esportiva)</option>
+      <option value="Vandellòs (Barranc del Terme)">Vandellòs (Barranc del Terme)</option>
+      <option value="Vandellòs (Els Dedalts)">Vandellòs (Els Dedalts)</option>
+      <option value="Vandellòs (Viver)">Vandellòs (Viver)</option>
+      <option value="Vic">Vic</option>
+      <option value="Vila-seca (IES Vila-seca)">Vila-seca (IES Vila-seca)</option>
+      <option value="Viladecans - Atrium">Viladecans - Atrium</option>
+      <option value="Vilafranca del Penedès">Vilafranca del Penedès</option>
+      <option value="Vilanova i la Geltrú">Vilanova i la Geltrú</option>
+    </select>
+
+      <button type="submit">Mostrar contaminantes</button>
+    </form>
+    <div id="resultados"></div>
+
+    <script>
+      const form = document.getElementById("formulario");
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const estacion = document.getElementById("estaciones").value;
+        const response = await fetch(
+          `https://analisi.transparenciacatalunya.cat/resource/tasf-thgu.json?nom_estacio=${estacion}`
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        const resultadosDiv = document.getElementById("resultados");
+        resultadosDiv.innerHTML = "";
+        for (const estacionObj of data) {
+          const tabla = document.createElement("table");
+          tabla.border = "1";
+          const fila = document.createElement("tr");
+          for (const key in estacionObj) {
+            if (key !== "geocoded_column") {
+              const celda = document.createElement("td");
+              celda.innerHTML = `${key}: ${estacionObj[key]}`;
+              fila.appendChild(celda);
+            }
+          }
+          tabla.appendChild(fila);
+          resultadosDiv.appendChild(tabla);
+        }
+      });
+    </script>
+  </body>
+</html>
