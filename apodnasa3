@@ -1,0 +1,149 @@
+<html>
+<head>
+  <title>APOD Search</title>
+</head>
+<body>
+<style>
+
+body {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+h1 {
+  color: blue;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+form {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+input[type="text"], input[type="date"] {
+  font-size: 16px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+}
+
+button[type="submit"] {
+  font-size: 16px;
+  color: white;
+  background-color: blue;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: darkblue;
+}
+
+#result {
+  margin-top: 20px;
+  text-align: left;
+}
+
+#result h2 {
+  color: blue;
+  margin-bottom: 8px;
+}
+
+#result p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+
+</style>
+  <h1>APOD Search</h1>
+  <form id="search-form">
+    <label for="keyword">Keyword:</label><br>
+    <input type="text" id="keyword" name="keyword"><br>
+    <button type="submit">Search</button>
+  </form>
+  <form id="date-form">
+    <label for="date">Date:</label><br>
+    <input type="date" id="date" name="date"><br>
+    <button type="submit">Show APOD</button>
+  </form> 
+  <div id="result"></div>
+  <script>
+    const searchForm = document.getElementById('search-form');
+    const dateForm = document.getElementById('date-form');
+    const resultDiv = document.getElementById('result');
+
+    searchForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const keyword = document.getElementById('keyword').value;
+      searchAPOD(keyword);
+    });
+
+    dateForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const date = document.getElementById('date').value;
+      getAPOD(date);
+    });
+
+    async function searchAPOD(keyword) {
+      const url = `https://images-api.nasa.gov/search?q=${keyword}`;
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          const searchResults = await response.json();
+          displaySearchResults(searchResults);
+        } else {
+          resultDiv.innerHTML = `Error ${response.status}: ${response.statusText}`;
+        }
+      } catch (error) {
+        resultDiv.innerHTML = 'Error searching for images';
+      }
+    }
+
+    async function getAPOD(date) {
+      const url = `https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=${date}`;
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          const apod = await response.json();
+          displayAPOD(apod);
+        } else {
+          resultDiv.innerHTML = `Error ${response.status}: ${response.statusText}`;
+        }
+      } catch (error) {
+        resultDiv.innerHTML = 'Error retrieving APOD';
+      }
+    }
+
+    function displaySearchResults(searchResults) {
+      let resultHTML = '';
+      searchResults.collection.items.forEach((item) => {
+        if (item.data[0].media_type === 'image') {
+          resultHTML += `<h2>${item.data[0].title}</h2>`;
+          resultHTML += `<img src="${item.links[0].href}" alt="${item.data[0].title}">`;
+          resultHTML += `<p>${item.data[0].description}</p>`;
+        }
+      });
+      resultDiv.innerHTML = resultHTML;
+    }
+
+    function displayAPOD(apod) {
+      let resultHTML = `<h2>${apod.title}</h2>`;
+      if (apod.media_type === 'image') {
+        resultHTML += `<img src="${apod.url}" alt="${apod.title}">`;
+      } else if (apod.media_type === 'video') {
+        resultHTML += `<iframe src="${apod.url}" frameborder="0" allowfullscreen></iframe>`;
+      }
+      resultHTML += `<p>${apod.explanation}</p>`;
+      resultHTML += `<p>Copyright: ${apod.copyright}</p>`;
+      resultHTML += `<p>Date: ${apod.date}</p>`;
+      resultDiv.innerHTML = resultHTML;
+    }
+  </script>
+</body>
+</html>
+
