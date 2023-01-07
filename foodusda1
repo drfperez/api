@@ -35,7 +35,7 @@
       statusDiv.innerHTML = 'Loading...';
 
       // Make a request to the USDA Food Composition Databases API to search for the food
-      fetch(`https://api.nal.usda.gov/fdc/v1/search?api_key=NXWd5FMgr3NKIIJI5gHBouIQMf2dRnG5h0cJlCtX&generalSearchInput=${foodName}`)
+      fetch(`https://api.nal.usda.gov/fdc/v1/search?api_key=YOUR_API_KEY&generalSearchInput=${foodName}`)
         .then(response => {
           // Check the status of the response
           if (response.ok) {
