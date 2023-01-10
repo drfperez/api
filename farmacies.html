@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pharmacy Search</title>
+  </head>
+  <body>
+    <h1>Pharmacy Search</h1>
+    <form id="search-form">
+      <label for="search-input">Postal Code:</label>
+      <input type="text" id="search-input" />
+      <button type="submit">Go</button>
+    </form>
+    <div id="search-results"></div>
+
+    <script>
+      async function getData() {
+        try {
+          const response = await fetch('https://pompeu.neocities.org/farmacies/farmacies.json');
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          } else {
+            return await response.json();
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      async function search(postalCode) {
+        const data = await getData();
+        const searchResults = data.filter(pharmacy => {
+          return pharmacy['CODI POSTAL'] === postalCode;
+        });
+        return searchResults;
+      }
+
+      function displayResults(results) {
+        const resultsContainer = document.getElementById('search-results');
+        resultsContainer.innerHTML = '';
+        for (const result of results) {
+          const pharmacyName = result['NOM FARMACIA'];
+          const municipality = result['NOM MUNICIPI'];
+          const postalCode = result['CODI POSTAL'];
+          const absCode = result['CODI ABS'];
+          const absName = result['NOM ABS'];
+          const address = `${result['TIPUS VIA']} ${result['NOM VIA']}, ${result['NUMERO VIA']}`;
+          resultsContainer.innerHTML += `
+            <div class="result">
+              <h2>${pharmacyName}</h2>
+              <p>Municipality: ${municipality}</p>
+              <p>Postal Code: ${postalCode}</p>
+              <p>ABS Code: ${absCode}</p>
+              <p>ABS Name: ${absName}</p>
+              <p>Address: ${address}</p>
+            </div>
+          `;
+        }
+      }
+
+      const searchForm = document.getElementById('search-form');
+      searchForm.addEventListener('submit', event => {
+        event.preventDefault();
+        const searchInput = document.getElementById('search-input');
+        const postalCode = searchInput.value;
+        search(postalCode).then(results => {
+          displayResults(results);
+        });
+      });
+    </script>
+  </body>
+</html>
