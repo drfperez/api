@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Random Painting Viewer</title>
+  </head>
+  <body>
+    <h1>Random Painting Viewer</h1>
+    <p>Click the button below to view a random painting from The Metropolitan Museum of Art's collection:</p>
+    <button id="fetchButton">View Painting</button>
+    <div id="status"></div>
+    <div id="imageContainer"></div>
+    <div id="metadata"></div>
+    <script>
+      const fetchButton = document.querySelector('#fetchButton');
+      const statusDiv = document.querySelector('#status');
+      const imageContainer = document.querySelector('#imageContainer');
+      const metadataDiv = document.querySelector('#metadata');
+      fetchButton.addEventListener('click', async () => {
+        statusDiv.innerHTML = 'Loading...';
+        try {
+          // Fetch the list of painting IDs from the Met Collection API
+          const url = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&medium=Paintings&departmentId=11&q=Painting';
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const res = await response.json();
+          // Choose a random painting
+          const max = res.total - 1;
+          console.log("Max: " + max);
+          const min = 0;
+          const random = Math.floor(Math.random() * (max - min + 1)) + min;
+          console.log("Random: " + random);
+          const picked = res.objectIDs[random];
+          console.log("Picked: " + picked);
+          // Get the details for the chosen painting
+          const response2 = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${picked}`);
+          if (!response2.ok) {
+            throw new Error(`HTTP error! status: ${response2.status}`);
+          }
+          const res2 = await response2.json();
+          // Load the image for the painting
+          const imgResponse = await fetch(res2.primaryImageSmall);
+                    if (!imgResponse.ok) {
+            throw new Error(`HTTP error! status: ${imgResponse.status}`);
+          }
+          const imgBlob = await imgResponse.blob();
+          // Display the image
+          const image = document.createElement('img');
+          image.src = URL.createObjectURL(imgBlob);
+          imageContainer.innerHTML = '';
+          imageContainer.appendChild(image);
+          // Display the metadata
+          metadataDiv.innerHTML = `
+            <p>Title: ${res2.title}</p>
+            <p>Artist: ${res2.artistDisplayName}</p>
+            <p>Year: ${res2.objectBeginDate}</p>
+          `;
+          statusDiv.innerHTML = '';
+        } catch (error) {
+          console.error(error);
+          let cause = '';
+          if (error.cause) {
+            cause = ` (Cause: ${error.cause})`;
+          }
+          statusDiv.innerHTML = `Error: ${error.message}${cause}`;
+        }
+      });
+    </script>
+  </body>
+</html>
+
