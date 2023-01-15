@@ -13,6 +13,7 @@ etc.Get an API key here: https://fdc.nal.usda.gov/api-key-signup.html
 3) Air Catalunya: You can consult the data on pollutants measured at the stations of the Atmospheric Pollution Monitoring and Forecasting Network (XVPCA) with automatic sampling equipment.
 4) Farmacies are different codes written in HTML, React Native, Python and C++20 programming languages with the same objective: to find data on the Catalan pharmacies searching using only the Catalan postal code.
 5) COVID data: find data of COVID-19 by countries and present data first on tables and secondly on charts using chart.js (You will use Harvard dataverse and KNIME to relate COVID-19 death data with air pollutants)
+6) Metropolitant Museum of Art NY API: find painting by painter, one random paintings or several random paintings.
 
 
 All examples of codes for my students at Pompeu Fabra High School by Prof. Dr. Francesc Pérez 
