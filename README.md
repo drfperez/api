@@ -12,4 +12,7 @@ Sign up for a NASA API key at https://api.nasa.gov/
 etc.Get an API key here: https://fdc.nal.usda.gov/api-key-signup.html
 3) Air Catalunya: You can consult the data on pollutants measured at the stations of the Atmospheric Pollution Monitoring and Forecasting Network (XVPCA) with automatic sampling equipment.
 4) Farmacies are different codes written in HTML, React Native, Python and C++20 programming languages with the same objective: to find data on the Catalan pharmacies searching using only the Catalan postal code.
-Examples of codes for my students at Pompeu Fabra High School by Prof. Dr. Francesc Pérez 
+5) COVID data: find data of COVID-19 by countries and present data first on tables and secondly on charts using chart.js
+
+
+All examples of codes for my students at Pompeu Fabra High School by Prof. Dr. Francesc Pérez 
