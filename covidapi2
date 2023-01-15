@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>COVID Data</title>
+  <!-- Include the Chart.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+</head>
+<body>
+  <h1>COVID Data</h1>
+  <form>
+    <label for="country">Country:</label><br>
+    <input type="text" id="country" name="country"><br>
+    <button type="button" onclick="search()">Search</button>
+  </form>
+  <br>
+  <table id="data">
+    <tr>
+      <th>Country</th>
+      <th>Cases</th>
+      <th>Deaths</th>
+      <th>Recovered</th>
+    </tr>
+  </table>
+  <!-- Create a canvas element for the chart -->
+  <canvas id="chart"></canvas>
+  <script>
+    function search() {
+      // Get the value of the country input field
+      var country = document.getElementById("country").value;
+
+      // Make a GET request to the disease.sh API to get the COVID data for the specified country
+      fetch("https://disease.sh/v3/covid-19/countries/" + country)
+        .then(response => response.json())
+        .then(data => {
+          // Get the table element
+          var table = document.getElementById("data");
+
+          // Create a new row for the table
+          var row = table.insertRow(-1);
+
+          // Add cells to the row for each piece of data
+          var countryCell = row.insertCell(0);
+          var casesCell = row.insertCell(1);
+          var deathsCell = row.insertCell(2);
+          var recoveredCell = row.insertCell(3);
+
+          // Set the values of the cells to the COVID data
+          countryCell.innerHTML = data.country;
+          casesCell.innerHTML = data.cases;
+          deathsCell.innerHTML = data.deaths;
+          recoveredCell.innerHTML = data.recovered;
+
+          // Create the chart data
+          var chartData = {
+            labels: ["Cases", "Deaths", "Recovered"],
+            datasets: [
+              {
+                label: "COVID Data",
+                data: [data.cases, data.deaths, data.recovered],
+                backgroundColor: ["#ff6384", "#36a2eb", "#cc65fe"]
+              }
+            ]
+          };
+
+          // Get the canvas element
+          var ctx = document.getElementById("chart").getContext("2d");
+
+          // Create the chart using Chart.js
+          var chart = new Chart(ctx, {
+            type: "pie",
+            data: chartData,
+            options: {}
+          });
+        });
+    }
+  </script>
+</body>
+</html>
