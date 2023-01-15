@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Paintings by a specific artist</title>
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Paintings by a specific artist</h1>
+  <form id="form">
+    <label for="name">Enter artist name:</label><br>
+    <input type="text" id="name" name="name"><br>
+    <button type="submit">Submit</button>
+  </form> 
+  <div id="results"></div>
+  <div class="error" id="error"></div>
+
+  <script>
+    const form = document.querySelector('#form');
+    const resultsDiv = document.querySelector('#results');
+    const errorDiv = document.querySelector('#error');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const name = event.target.elements.name.value;
+      try {
+        // Fetch objects from the API
+        const objectsResponse = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/search?q=${name}`);
+        const objectsData = await objectsResponse.json();
+        // Check for error in response
+        if (objectsResponse.status !== 200) {
+          throw new Error(objectsData.message);
+        }
+        // Clear the previous results
+        resultsDiv.innerHTML = '';
+        // Display each object's image and information
+        for (const objectId of objectsData.objectIDs) {
+          const objectResponse = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${objectId}`);
+          const objectData = await objectResponse.json();
+          // Check for error in response
+          if (objectResponse.status !== 200) {
+            throw new Error(objectData.message);
+          }
+          // Create an image element for the object and set its src to the object's primary image small URL
+          const imgElement = document.createElement('img');
+          imgElement.src = objectData.primaryImageSmall;
+          // Append the image and object information to the page
+          resultsDiv.appendChild(imgElement);
+          resultsDiv.innerHTML += `<br><strong>Title:</strong> ${objectData.title}<br><strong>Year:</strong> ${objectData.objectBeginDate}`;
+        }
+      } catch (error) {
+        console.error(error);
+        errorDiv.innerHTML = `Error: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
