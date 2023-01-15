@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>COVID Data</title>
+</head>
+<body>
+  <h1>COVID Data</h1>
+  <form>
+    <label for="country">Country:</label><br>
+    <input type="text" id="country" name="country"><br>
+    <button type="button" onclick="search()">Search</button>
+  </form>
+  <br>
+  <table id="data">
+    <tr>
+      <th>Country</th>
+      <th>Cases</th>
+      <th>Today Cases</th>
+      <th>Deaths</th>
+      <th>Today Deaths</th>
+      <th>Recovered</th>
+      <th>Active</th>
+      <th>Critical</th>
+      <th>Cases per Million</th>
+      <th>Deaths per Million</th>
+      <th>Tests</th>
+      <th>Tests per Million</th>
+      <th>Continent</th>
+    </tr>
+  </table>
+  <div id="error"></div>
+  <script>
+    async function search() {
+      // Get the value of the country input field
+      var country = document.getElementById("country").value;
+
+      try {
+        // Make a GET request to the disease.sh API to get the COVID data for the specified country
+        const response = await fetch("https://disease.sh/v3/covid-19/countries/" + country);
+        // Check the status of the response
+        if (!response.ok) {
+          // If the response is not okay, throw an error
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        // Get the table element
+        var table = document.getElementById("data");
+
+        // Create a new row for the table
+        var row = table.insertRow(-1);
+
+        // Add cells to the row for each piece of data
+        var countryCell = row.insertCell(0);
+        var casesCell = row.insertCell(1);
+        var todayCasesCell = row.insertCell(2);
+        var deathsCell = row.insertCell(3);
+        var todayDeathsCell = row.insertCell(4);
+        var recoveredCell = row.insertCell(5);
+        var activeCell = row.insertCell(6);
+        var criticalCell = row.insertCell(7);
+        var casesPerMillionCell = row.insertCell(8);
+        var deathsPerMillionCell = row.insertCell(9);
+        var testsCell = row.insertCell(10);
+        var testsPerMillionCell = row.insertCell(11);
+        var continentCell = row.insertCell(12);
+
+        // Set the values of the cells to the COVID data
+        countryCell.innerHTML = data.country;
+        casesCell.innerHTML = data.cases;
+        todayCasesCell.innerHTML = data.todayCases;
+        deathsCell.innerHTML = data.deaths;
+        todayDeathsCell.innerHTML = data.todayDeaths;
+        recoveredCell.innerHTML = data.recovered;
+        activeCell.innerHTML = data.active;
+        criticalCell.innerHTML = data.critical;
+        casesPerMillionCell.innerHTML = data.casesPerOneMillion;
+        deathsPerMillionCell.innerHTML = data.deathsPerOneMillion;
+        testsCell.innerHTML = data.tests;
+        testsPerMillionCell.innerHTML = data.testsPerOneMillion;
+        continentCell.innerHTML = data.continent;
+      } catch(error) {
+        // If there is an error, display the error message
+        document.getElementById("error").innerHTML = error.message;
+      }
+    }
+  </script>
+</body>
+</html>
+
