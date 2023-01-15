@@ -1,0 +1,74 @@
+<html>
+<head>
+  <title>Random Paintings</title>
+</head>
+<body>
+<h1>Random Paintings</h1>
+<form id="form">
+  <label for="numPaintings">Number of paintings:</label><br>
+  <input type="number" id="numPaintings" name="numPaintings"><br>
+  <button type="submit">Submit</button>
+</form> 
+<div id="results"></div>
+<script>
+  const form = document.getElementById('form');
+  const resultsDiv = document.getElementById('results');
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const numPaintings = document.getElementById('numPaintings').value;
+
+    const paintings = await getRandomPaintings(numPaintings);
+    displayPaintings(paintings);
+  });
+
+  async function getRandomPaintings(numPaintings) {
+    const url = 'https://collectionapi.metmuseum.org/public/collection/v1/objects';
+    const options = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    };
+
+    const response = await fetch(url, options);
+    const data = await response.json();
+    const total = data.total;
+    const randomIndexes = getRandomIndexes(total, numPaintings);
+    const paintings = [];
+
+    for (const index of randomIndexes) {
+      const objectId = data.objectIDs[index];
+      const paintingResponse = await fetch(`${url}/${objectId}`, options);
+      const paintingData = await paintingResponse.json();
+      paintings.push(paintingData);
+    }
+
+    return paintings;
+  }
+
+  function getRandomIndexes(total, numPaintings) {
+    const indexes = new Set();
+    while (indexes.size < numPaintings) {
+      const index = Math.floor(Math.random() * total);
+      indexes.add(index);
+    }
+    return Array.from(indexes);
+  }
+
+  function displayPaintings(paintings) {
+    resultsDiv.innerHTML = '';
+    for (const painting of paintings) {
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <h2>${painting.title}</h2>
+        <p>By ${painting.artistDisplayName}</p>
+        <p>${painting.objectBeginDate}</p>
+        <img src="${painting.primaryImageSmall}" alt="${painting.title}">
+      `;
+      resultsDiv.appendChild(div);
+    }
+  }
+</script>
+</body>
+</html>
+
+
