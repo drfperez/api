@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>New York Times API Example</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+	<h1>New York Times API Example</h1>
+	<p>Here are the latest articles from the New York Times:</p>
+	<ul id="nyt-articles"></ul>
+	<script>
+		// Replace YOUR_API_KEY with your actual API key from the New York Times
+		var apikey = "YOUR_API_KEY";
+		var apiurl = "https://api.nytimes.com/svc/topstories/v2/home.json?api-key=" + apikey;
+
+		$.getJSON(apiurl, function(data) {
+			// Loop through the articles returned by the API and add them to the page
+			$.each(data.results, function(i, article) {
+				$("#nyt-articles").append("<li><a href='" + article.url + "'>" + article.title + "</a></li>");
+			});
+		});
+	</script>
+</body>
+</html>
