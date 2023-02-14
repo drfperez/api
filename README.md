@@ -15,6 +15,6 @@ etc.Get an API key here: https://fdc.nal.usda.gov/api-key-signup.html
 5) COVID data: find data of COVID-19 by countries and present data first on tables and secondly on charts using chart.js (You will use Harvard dataverse and KNIME to relate COVID-19 death data with air pollutants)
 6) Car query API: Technical features of car models starting in 1941
 7) Metropolitant Museum of Art NY API: find painting by painter, one random paintings or several random paintings.
-
+8) New York Times newspaper API to find news from 1851
 
 All examples of codes for my students at Pompeu Fabra High School by Prof. Dr. Francesc Pérez 
